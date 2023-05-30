@@ -134,11 +134,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudioPlayer.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.hpp" />
     <ClInclude Include="include.hpp" />
+    <ClInclude Include="utility.hpp" />
     <ClInclude Include="webrequest.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

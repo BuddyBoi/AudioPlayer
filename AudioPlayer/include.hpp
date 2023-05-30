@@ -40,31 +40,3 @@
 #include <SDL.h>
 #include <SDL_main.h>
 #include <SDL_mixer.h>
-
-std::string server_read( std::string page )
-{
-	std::string domain = "http://155.254.26.213";
-
-	httplib::Client cli( domain.c_str() );
-
-	auto res = cli.Get( page.c_str() );
-
-	if ( res )
-	{
-		return res->body;
-	}
-	else
-	{
-		return "error";
-	}
-}
-
-void lg( std::string s )
-{
-	std::cout << "[LOG] " << s << std::endl;
-}
-
-std::vector<uint8_t> string_to_buffer( std::string s_str )
-{
-	return std::vector<std::uint8_t>( std::begin( s_str ), std::end( s_str ) );
-}

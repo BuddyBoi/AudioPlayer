@@ -1,4 +1,6 @@
+#pragma once
 #include "include.hpp"
+#include "utility.hpp"
 
 namespace audio
 {
@@ -159,8 +161,14 @@ namespace audio
 			return -1;
 		}
 
+		std::string s_title = Mix_GetMusicTitle( dec_music_mem );
+		std::string s_album = Mix_GetMusicAlbumTag( dec_music_mem );
+		std::string s_artist = Mix_GetMusicArtistTag( dec_music_mem );
+
+		std::string s_label = s_artist + " - " + s_album + " - " + s_title;
+
 		vec_music.push_back( dec_music_mem );
-		vec_music_names.push_back( s_music_path );
+		vec_music_names.push_back( s_label );
 		return vec_music.size( ) - 1;
 	}
 

@@ -1,5 +1,6 @@
 #include "include.hpp"
 #include "audio.hpp"
+#include "utility.hpp"
 
 void music_processing_thread( )
 {
@@ -119,32 +120,33 @@ void music_menu_thread( )
 	}
 }
 
-namespace files
+std::vector<std::string> get_files_in_dir( std::string s_path )
 {
-	std::vector<std::string> get_files_in_dir( std::string s_path )
+	std::vector<std::string> vec_files{};
+
+	if ( !std::experimental::filesystem::is_directory( s_path ) )
 	{
-		std::vector<std::string> vec_files{};
-
-		if ( !std::experimental::filesystem::is_directory( s_path ) )
-		{
-			lg( "files_get: failed to find dir path" );
-			return std::vector<std::string>{};
-		}
-
-		for ( const auto& entry : std::experimental::filesystem::directory_iterator( s_path ) )
-		{
-			std::string s_path_name = entry.path( ).string( );
-			auto path = entry.path( );
-			vec_files.push_back( s_path_name );
-		}
-
-		return vec_files;
+		lg( "files_get: failed to find dir path" );
+		return std::vector<std::string>{};
 	}
+
+	for ( const auto& entry : std::experimental::filesystem::directory_iterator( s_path ) )
+	{
+		std::string s_path_name = entry.path( ).string( );
+
+		if ( std::experimental::filesystem::is_directory( s_path_name ) )
+			continue;
+
+		auto path = entry.path( );
+		vec_files.push_back( s_path_name );
+	}
+
+	return vec_files;
 }
 
 void setup_music_files( )
 {
-	std::vector<std::string> vec_files = files::get_files_in_dir( "c:\\test\\music" );
+	std::vector<std::string> vec_files = get_files_in_dir( "c:\\test\\music" );
 	for ( std::string s : vec_files )
 	{
 		if ( s.substr( ( s.size( ) - 1 ) - 4, ( s.size( ) - 1 ) ) == ".flac" )
