@@ -32,9 +32,9 @@
 #include <WinBase.h>
 
 //external libraries
-#pragma comment(lib, "C:\\Users\\buddy\\Documents\\Visual Studio Libraries\\SDL2\\lib\\x64\\SDL2.lib")
-#pragma comment(lib, "C:\\Users\\buddy\\Documents\\Visual Studio Libraries\\SDL2\\lib\\x64\\SDL2main.lib")
-#pragma comment(lib, "C:\\Users\\buddy\\Documents\\Visual Studio Libraries\\SDL2_MIXER\\lib\\x64\\SDL2_mixer.lib")
+#pragma comment(lib, "SDL2.lib")
+#pragma comment(lib, "SDL2main.lib")
+#pragma comment(lib, "SDL2_mixer.lib")
 
 //external headers
 #include <SDL.h>
