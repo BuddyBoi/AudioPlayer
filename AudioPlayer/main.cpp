@@ -51,6 +51,11 @@ void music_menu_thread( )
 	if ( HANDLE h = CreateThread( 0, 0, ( LPTHREAD_START_ROUTINE ) music_processing_thread, 0, 0, 0 ) )
 		CloseHandle( h );
 
+	//get HWND of console window
+	//doesn't seem to be the same as GetConsoleWindow() when multi-threaded
+	//i.e - if( GetForegroundWindow() == GetConsoleWindow() ) - won't work
+	static HWND hwndConsole = GetForegroundWindow();
+
 	while ( true )
 	{
 		std::this_thread::sleep_for( std::chrono::milliseconds( 500 ) );
@@ -68,9 +73,9 @@ void music_menu_thread( )
 			std::cout << "CURRENT SONG POS: " + std::to_string( audio::music_cur_get_position( ) ) + " / " + std::to_string( audio::music_get_song_length( ) ) << std::endl;
 		}
 
-		if ( GetAsyncKeyState( VK_SPACE ) )
+		if ( GetAsyncKeyState( VK_SPACE ) && (GetForegroundWindow() == hwndConsole) ) //only get input if window is active
 		{
-			std::cout << "1) Play Song\n2)Stop Song\n3)Change Volume\n4)Skip Song\n5)Pause/Resume\n6)Forward\n7)Rewind";
+			std::cout << "1)Play Song\n2)Stop Song\n3)Change Volume\n4)Skip Song\n5)Pause/Resume\n6)Forward\n7)Rewind";
 			int i_menu_option = -1;
 			std::cin >> i_menu_option;
 
@@ -146,7 +151,12 @@ std::vector<std::string> get_files_in_dir( std::string s_path )
 
 void setup_music_files( )
 {
-	std::vector<std::string> vec_files = get_files_in_dir( "c:\\test\\music" );
+	std::vector<std::string> vec_files = get_files_in_dir( "c:\\music" );
+	if ( !vec_files.size() )
+		return;
+
+	printf( "LOADED SONGS LIST:\n" );
+
 	for ( std::string s : vec_files )
 	{
 		if ( s.substr( ( s.size( ) - 1 ) - 4, ( s.size( ) - 1 ) ) == ".flac" )
